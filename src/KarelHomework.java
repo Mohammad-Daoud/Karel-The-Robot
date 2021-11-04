@@ -63,7 +63,7 @@ public class KarelHomework extends SuperKarel {
 
         int beepers = 200;
         setBeepersInBag(beepers);
-       // caseRun(1);
+        // caseRun(1);
         caseRun(2);
 
     }
