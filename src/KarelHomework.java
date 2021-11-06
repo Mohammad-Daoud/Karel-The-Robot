@@ -155,8 +155,9 @@ public class KarelHomework extends SuperKarel {
     /**
      * findSize() will make Karel knows the size of the map, So he will know the map that deals with.
      * {@link #correctDirection()} this method will execute before any move to make Karel at the right
-     * direction -<i>facing East</i>- then karel will keep move, update the X,Y - coordinates by
-     * calling {@link #XYCoordinates()} method and increase the <tt>width</tt> and <tt>height</tt>
+     * direction -<i>facing East</i>- then karel will keep moving, update the X,Y - coordinates and
+     * moving steps by
+     * calling {@link #moveUpdater()} method and increase the <tt>width</tt> and <tt>height</tt>
      */
 
     public void findSize() {
@@ -193,7 +194,7 @@ public class KarelHomework extends SuperKarel {
      * fill() will make Karel deal with any type of map for <strong>Step(1)</strong>
      * Karel will put all beepers needed and pick others while scanning with top-down
      * square movement
-     * <p>Each {@link #move()} method will have {@link #XYCoordinates()}, {@link #stepsCounter()} methods
+     * <p>Each {@link #move()} method will have {@link #moveUpdater()} method
      * to update Karel movement steps and X,Y- coordinate
      */
     public void fill() {
@@ -568,7 +569,7 @@ public class KarelHomework extends SuperKarel {
             moveToWall();
             turnRight();
             move();
-            XYCoordinates();
+            moveUpdater();
             turnRight();
             moveToWall();
             turnRight();
@@ -652,6 +653,9 @@ public class KarelHomework extends SuperKarel {
         turnLeft();
     }
 
+    /**
+     * moveUpdater() will update both X,Y coordinate and Karel steps
+     */
     public void moveUpdater() {
         stepsCounter();
         XYCoordinates();
