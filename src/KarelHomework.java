@@ -147,8 +147,7 @@ public class KarelHomework extends SuperKarel {
         while (frontIsClear()) {
             beeperPutter();
             move();
-            XYCoordinates();
-            stepsCounter();
+            moveUpdater();
             beeperPutter();
         }
     }
@@ -164,16 +163,14 @@ public class KarelHomework extends SuperKarel {
         correctDirection();
         while (frontIsClear() && facingEast()) {
             move();
-            stepsCounter();
             width++;
-            XYCoordinates();
+            moveUpdater();
         }
         turnLeft();
         while (frontIsClear() && facingNorth()) {
             move();
-            stepsCounter();
             height++;
-            XYCoordinates();
+            moveUpdater();
         }
     }
 
@@ -214,15 +211,13 @@ public class KarelHomework extends SuperKarel {
                 turnLeft();
                 beeperPutter();
                 move();
-                stepsCounter();
-                XYCoordinates();
+                moveUpdater();
 
             } else if (frontIsBlocked() && facingWest()) {
                 turnLeft();
                 beeperPutter();
                 move();
-                stepsCounter();
-                XYCoordinates();
+                moveUpdater();
                 turnLeft();
             } else if (frontIsBlocked() && facingEast()) {
                 // to avoid the block by the wall while moving
@@ -232,8 +227,7 @@ public class KarelHomework extends SuperKarel {
                 beeperPutter();
 
                 move();
-                stepsCounter();
-                XYCoordinates();
+                moveUpdater();
                 turnRight();
             }
             moveToWall();
@@ -279,6 +273,8 @@ public class KarelHomework extends SuperKarel {
         this.steps = 1;
         this.width = 1;
         this.height = 1;
+        this.x =1 ;
+        this.y=1;
     }
 
     /**
@@ -402,11 +398,11 @@ public class KarelHomework extends SuperKarel {
 
             //H_FILL case points conditions -- in this and V_FILL case there are some odd cases
         else if (worldCase.equals(H_FILL))
-            return HVFillCases(true);
+            return HVFillCases();
 
             //V_FILL case points conditions
         else if (worldCase.equals(V_FILL))
-            return HVFillCases(false);
+            return HVFillCases();
 
         else return false;
     }
@@ -415,13 +411,11 @@ public class KarelHomework extends SuperKarel {
      * HVFillCases() will send the points condition for Karel to make him know if
      * he should put a beeper or not
      *
-     * @param isH_FILL <tt>boolean</tt> type variable that represent if the case is <strong>H_FILL</strong>by pass true
-     * @return <tt>true</tt> if the case point condition is true
      */
-    public boolean HVFillCases(boolean isH_FILL) {
+    public boolean HVFillCases() {
 
         int RightPoint, LeftPoint, caseRun, caseRunPoint;
-        if (isH_FILL) {
+        if (worldCase.equals(H_FILL)) {
             caseRunPoint = getX();
             caseRun = width;
 
@@ -470,7 +464,6 @@ public class KarelHomework extends SuperKarel {
                     caseRunPoint == RightPoint ||
                     caseRunPoint == LeftPoint;
         //end H_FILL case
-
     }
 
     /**
@@ -493,10 +486,10 @@ public class KarelHomework extends SuperKarel {
     /**
      * fastMoveToCenter() will make Karel move to the center in <strong>vertical</strong> or <strong>horizontal</strong>
      *
-     * @param isVerticalMove <tt>boolean</tt> type variable represent if the move is vertical move (<tt>true</tt>)
-     *                       ore not (<tt>false</tt>)
      */
-    public void fastMoveToCenter(boolean isVerticalMove) {
+    public void fastMoveToCenter() {
+        boolean isVerticalMove = !facingWest() && !facingEast();
+
         int temp = getSteps(); // store the steps in temporary
         resetStepCounter();// reset the steps counter to 1 to continue and count the steps
         if (isVerticalMove) {
@@ -520,7 +513,7 @@ public class KarelHomework extends SuperKarel {
 
     /**
      * fastFill() will make Karel deals with any map on any size with the lowest number of moves
-     *  and pretend the map is <strong>completely clean</strong> before start moving.
+     * and pretend the map is <strong>completely clean</strong> before start moving.
      * <p>.i.e if Karel deal with clean map of size <tt>10 * 10</tt> with {@link #fastFill()} method will do
      * <Strong> 71 </Strong> steps, but with {@link #fill()} method Karel will do <strong>127</strong>steps
      *
@@ -534,93 +527,90 @@ public class KarelHomework extends SuperKarel {
     public void fastFill() {
         if (worldCase.equals(EVEN_EVEN)) {
             turnLeft();
-            fastMoveToCenter(false);
+            fastMoveToCenter();
             turnLeft();
-
-            fastMoveToCenter(true);
-            turnLeft();
-            fastMoveToCenter(false);
+            FFEvenMove();
             turnRight();
             move();
-            stepsCounter();
-            XYCoordinates();
-
+            moveUpdater();
             turnRight();
-            fastMoveToCenter(false);
-            turnLeft();
-
-            fastMoveToCenter(true);
-            turnRight();
-            move();
-            XYCoordinates();
-            stepsCounter();
-            turnRight();
-            fastMoveToCenter(true);
-            turnLeft();
-            fastMoveToCenter(false);
-            turnRight();
-            move();
-            stepsCounter();
-            XYCoordinates();
-            turnRight();
-            fastMoveToCenter(false);
-
-            turnLeft();
-            fastMoveToCenter(true);
+            FFEvenMove();
             turnLeft();
             returnHome();
 
-
         } else if (worldCase.equals(EVEN_ODD)) {
             turnAround();
-            fastMoveToCenter(true);
+            fastMoveToCenter();
             turnRight();
-            fastMoveToCenter(false);
-
+            fastMoveToCenter();
             turnRight();
-            fastMoveToCenter(false);
+            fastMoveToCenter();
             turnLeft();
             move();
-            XYCoordinates();
-            stepsCounter();
+            moveUpdater();
             turnLeft();
-            fastMoveToCenter(true);
-            fastMoveToCenter(true);
+            fastMoveToCenter();
+            fastMoveToCenter();
             turnLeft();
             move();
-            XYCoordinates();
-            stepsCounter();
+            moveUpdater();
             turnLeft();
-            fastMoveToCenter(true);
+            fastMoveToCenter();
             turnLeft();
             returnHome();
 
         } else if (worldCase.equals(ODD_EVEN)) {
-            turnLeft();
-            fastMoveToCenter(false);
-            turnLeft();
-            fastMoveToCenter(true);
+           for (int i =0 ;i<2 ; i++){
+               turnLeft();
+               fastMoveToCenter();
+           }
             turnLeft();
             moveToWall();
             turnRight();
             move();
             XYCoordinates();
             turnRight();
-            fastMoveToCenter(false);
-            fastMoveToCenter(false);
+            moveToWall();
             turnRight();
             move();
+            moveUpdater();
             turnRight();
-            fastMoveToCenter(true);
+            fastMoveToCenter();
             turnRight();
             move();
-            XYCoordinates();
-            fastMoveToCenter(true);
+            moveUpdater();
+            fastMoveToCenter();
             turnRight();
-            fastMoveToCenter(false);
+            fastMoveToCenter();
             turnAround();
-        } else
-            fill();
+
+        } else if (worldCase.equals(ODD_ODD)) {
+            for (int i = 0 ;i<2 ; i++) {
+                turnLeft();
+                fastMoveToCenter();
+                for (int j = 0; j < 2; j++) {
+                    turnLeft();
+                    moveToWall();
+                }
+            }
+        } else fill();
+    }
+
+    /**
+     * FFEvenMove() fast fill even move will support Karel to fill {@link #EVEN_EVEN} map with the lowest number of move
+     * by move with half square pattern
+     */
+    private void FFEvenMove() {
+        fastMoveToCenter();
+        turnLeft();
+        fastMoveToCenter();
+        turnRight();
+        move();
+        moveUpdater();
+        turnRight();
+        fastMoveToCenter();
+        turnLeft();
+        fastMoveToCenter();
     }
 
     /**
@@ -644,24 +634,27 @@ public class KarelHomework extends SuperKarel {
     }
 
     /**
-     * returnHome() will make Karel return to origin point <tt>(1,1)</tt>
+     * returnHome() will make Karel return to origin point <tt>(1,1)</tt> , but in some cases only
      */
 
     public void returnHome() {
         while (frontIsClear()) {
             beeperPutter();
             move();
-            XYCoordinates();
-            stepsCounter();
+            moveUpdater();
         }
         turnLeft();
         beeperPutter();
         while (frontIsClear()) {
             move();
-            XYCoordinates();
-            stepsCounter();
+            moveUpdater();
         }
         turnLeft();
+    }
+
+    public void moveUpdater() {
+        stepsCounter();
+        XYCoordinates();
     }
 
 }
