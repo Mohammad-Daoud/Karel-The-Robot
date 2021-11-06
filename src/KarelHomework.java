@@ -175,10 +175,10 @@ public class KarelHomework extends SuperKarel {
         }
     }
 
+
     /**
      * XYCoordinates() to update the X, Y - coordinate
      */
-
     public void XYCoordinates() {
         if (facingEast())
             x++;
@@ -274,8 +274,8 @@ public class KarelHomework extends SuperKarel {
         this.steps = 1;
         this.width = 1;
         this.height = 1;
-        this.x =1 ;
-        this.y=1;
+        this.x = 1;
+        this.y = 1;
     }
 
     /**
@@ -334,6 +334,7 @@ public class KarelHomework extends SuperKarel {
      * @param isRightPoint represent if right point is need to find pass <tt>true</tt> else pass <tt>false</tt>
      * @return rightPoint if <tt>isRightPoint == true</tt> and leftPoint if <tt>isRightPoint == false</tt>
      */
+
     public int LRCenterPoints(boolean isRightPoint) {
         int param;
         if (worldCase.equals(H_FILL))
@@ -411,7 +412,6 @@ public class KarelHomework extends SuperKarel {
     /**
      * HVFillCases() will send the points condition for Karel to make him know if
      * he should put a beeper or not
-     *
      */
     public boolean HVFillCases() {
 
@@ -480,13 +480,13 @@ public class KarelHomework extends SuperKarel {
             turnLeft();
     }
 
+
     /*
      * part 2 of the assignment
      */
 
     /**
      * fastMoveToCenter() will make Karel move to the center in <strong>vertical</strong> or <strong>horizontal</strong>
-     *
      */
     public void fastMoveToCenter() {
         boolean isVerticalMove = !facingWest() && !facingEast();
@@ -550,8 +550,7 @@ public class KarelHomework extends SuperKarel {
             move();
             moveUpdater();
             turnLeft();
-            fastMoveToCenter();
-            fastMoveToCenter();
+            moveToWall();
             turnLeft();
             move();
             moveUpdater();
@@ -559,12 +558,13 @@ public class KarelHomework extends SuperKarel {
             fastMoveToCenter();
             turnLeft();
             returnHome();
+            correctDirection();
 
         } else if (worldCase.equals(ODD_EVEN)) {
-           for (int i =0 ;i<2 ; i++){
-               turnLeft();
-               fastMoveToCenter();
-           }
+            for (int i = 0; i < 2; i++) {
+                turnLeft();
+                fastMoveToCenter();
+            }
             turnLeft();
             moveToWall();
             turnRight();
@@ -583,10 +583,10 @@ public class KarelHomework extends SuperKarel {
             fastMoveToCenter();
             turnRight();
             fastMoveToCenter();
-            turnAround();
+            correctDirection();
 
         } else if (worldCase.equals(ODD_ODD)) {
-            for (int i = 0 ;i<2 ; i++) {
+            for (int i = 0; i < 2; i++) {
                 turnLeft();
                 fastMoveToCenter();
                 for (int j = 0; j < 2; j++) {
@@ -594,6 +594,7 @@ public class KarelHomework extends SuperKarel {
                     moveToWall();
                 }
             }
+            correctDirection();
         } else fill();
     }
 
