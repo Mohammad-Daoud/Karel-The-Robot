@@ -274,8 +274,7 @@ public class KarelHomework extends SuperKarel {
         this.steps = 1;
         this.width = 1;
         this.height = 1;
-        this.x = 1;
-        this.y = 1;
+
     }
 
     /**
@@ -541,10 +540,10 @@ public class KarelHomework extends SuperKarel {
 
         } else if (worldCase.equals(EVEN_ODD)) {
             turnAround();
-            fastMoveToCenter();
-            turnRight();
-            fastMoveToCenter();
-            turnRight();
+            for (int i = 0; i < 2; i++) {
+                fastMoveToCenter();
+                turnRight();
+            }
             fastMoveToCenter();
             turnLeft();
             move();
