@@ -450,8 +450,8 @@ public class KarelHomework extends SuperKarel {
                     caseRunPoint == RightPoint ||
                     caseRunPoint == LeftPoint;
 
-            // if the width is 7 it will be at specific point than other odd numbers
-        else if (caseRun == 7)
+            // if the width is less than multiplications of 4 by 1  it will be at specific point than other odd numbers
+        else if ((caseRun+1)% 4 == 0)
             return caseRunPoint == (caseRun + 1) / 2 ||
                     caseRunPoint == RightPoint ||
                     caseRunPoint == LeftPoint;
