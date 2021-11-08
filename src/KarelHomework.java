@@ -2,6 +2,8 @@
 import acm.util.ErrorException;
 import stanford.karel.SuperKarel;
 
+import java.util.Scanner;
+
 
 /**
  * The main point of the <tt>Homework</tt> class that make
@@ -60,9 +62,7 @@ public class KarelHomework extends SuperKarel {
 
     //Main method
     public void run() {
-
-        int beepers = 200;
-        setBeepersInBag(beepers);
+        setBeepersInBag(200);
         // caseRun(1);
         caseRun(2);
 
@@ -90,7 +90,7 @@ public class KarelHomework extends SuperKarel {
                     caseNumber);
 
         System.out.println("---------------------------------\n" +
-                ">>> Karel travel in " + getSteps() + " steps \n" +
+                ">>> Karel travel in " + steps + " steps \n" +
                 "---------------------------------");
         resetAll();
     }
@@ -120,9 +120,9 @@ public class KarelHomework extends SuperKarel {
             return ODD_ODD;
         else if (height <= 2 && width <= 2)
             throw new ErrorException("this type of map cannot be divided !!: width = " + width + " height = " + height);
-        else if ((height == 1 || height == 2) && width > 3)
+        else if (height == 1 || height == 2)
             return H_FILL;
-        else if ((width == 1 || width == 2) && height > 3)
+        else if (width == 1 || width == 2)
             return V_FILL;
         else if (width % 2 == 0 && height % 2 == 0)
             return EVEN_EVEN;
@@ -174,8 +174,6 @@ public class KarelHomework extends SuperKarel {
             moveUpdater();
         }
     }
-
-
     /**
      * XYCoordinates() to update the X, Y - coordinate
      */
@@ -193,10 +191,11 @@ public class KarelHomework extends SuperKarel {
     /**
      * fill() will make Karel deal with any type of map for <strong>Step(1)</strong>
      * Karel will put all beepers needed and pick others while scanning with top-down
-     * square movement
+     * square wave movement
      * <p>Each {@link #move()} method will have {@link #moveUpdater()} method
      * to update Karel movement steps and X,Y- coordinate
      */
+
     public void fill() {
         beeperPutter();
         // on point (1,1) karel will stop
@@ -236,7 +235,6 @@ public class KarelHomework extends SuperKarel {
         //to redirect Karel for right direction for even height to keep moving and to stop
         // with right direction for odd height
         turnAround();
-
         //if Karel reached the first line and not on the origin point we will correct his direction
         // and exit the method
         if (getY() == 1 && (height % 2 == 0)) {
@@ -249,14 +247,12 @@ public class KarelHomework extends SuperKarel {
         }
         beeperPutter();
     }
-
     /**
      * stepsCounter() to update Karel movement steps
      */
     public void stepsCounter() {
         steps++;
     }
-
     /**
      * getSteps() to retrieve Karel movement steps.
      *
@@ -265,7 +261,6 @@ public class KarelHomework extends SuperKarel {
     public int getSteps() {
         return steps;
     }
-
     /**
      * resetAll() will re-assign steps, width and height to <strong>1</strong>
      * so you can run Karel as much as you want.
@@ -277,6 +272,8 @@ public class KarelHomework extends SuperKarel {
 
     }
 
+
+
     /**
      * getX() to retrieve <tt>x</tt> coordinate
      *
@@ -286,7 +283,6 @@ public class KarelHomework extends SuperKarel {
     public int getX() {
         return x;
     }
-
     /**
      * getY() to retrieve <tt>y</tt> coordinate
      *
@@ -396,13 +392,8 @@ public class KarelHomework extends SuperKarel {
             return getX() == width / 2 ||
                     getX() == width / 2 + 1 ||
                     getY() == height / 2 + 1;
-
-            //H_FILL case points conditions -- in this and V_FILL case there are some odd cases
-        else if (worldCase.equals(H_FILL))
-            return HVFillCases();
-
-            //V_FILL case points conditions
-        else if (worldCase.equals(V_FILL))
+            //H_FILL or V_FILL  case points conditions -- in this and V_FILL case there are some odd cases
+        else if (worldCase.equals(H_FILL) || worldCase.equals(V_FILL))
             return HVFillCases();
 
         else return false;
@@ -413,19 +404,16 @@ public class KarelHomework extends SuperKarel {
      * he should put a beeper or not
      */
     public boolean HVFillCases() {
-
-        int RightPoint, LeftPoint, caseRun, caseRunPoint;
+        int rightPoint, leftPoint, caseRun, caseRunPoint;
         if (worldCase.equals(H_FILL)) {
             caseRunPoint = getX();
             caseRun = width;
-
         } else {
             caseRunPoint = getY();
             caseRun = height;
         }
-        RightPoint = LRCenterPoints(true);
-        LeftPoint = LRCenterPoints(false);
-
+        rightPoint = LRCenterPoints(true);
+        leftPoint = LRCenterPoints(false);
         // to divide the map to 2 champers
         if (caseRun > 2 && caseRun <= 6)
             if (caseRun % 2 == 0)
@@ -437,8 +425,8 @@ public class KarelHomework extends SuperKarel {
         if (caseRun % 4 == 0)
             return caseRunPoint == caseRun / 2 ||
                     caseRunPoint == caseRun / 2 + 1 ||
-                    caseRunPoint == RightPoint ||
-                    caseRunPoint == LeftPoint;
+                    caseRunPoint == rightPoint ||
+                    caseRunPoint == leftPoint;
             // if the width is even number
         else if (caseRun % 2 == 0)
             return (getX() == width && getY() == height) ||
@@ -447,23 +435,23 @@ public class KarelHomework extends SuperKarel {
                     (getX() == 1 && getY() == height) ||
                     caseRunPoint == caseRun / 2 ||
                     caseRunPoint == caseRun / 2 + 1 ||
-                    caseRunPoint == RightPoint ||
-                    caseRunPoint == LeftPoint;
+                    caseRunPoint == rightPoint ||
+                    caseRunPoint == leftPoint;
 
             // if the width is less than multiplications of 4 by 1  it will be at specific point than other odd numbers
         else if ((caseRun+1)% 4 == 0)
             return caseRunPoint == (caseRun + 1) / 2 ||
-                    caseRunPoint == RightPoint ||
-                    caseRunPoint == LeftPoint;
+                    caseRunPoint == rightPoint ||
+                    caseRunPoint == leftPoint;
 
         else return (getX() == width && getY() == height) ||
                     (getX() == width && getY() == 1) ||
                     (getX() == 1 && getY() == 1) ||
+                    (getX() == 1 && getY() == 2) ||
                     (getX() == 1 && getY() == caseRun) ||
                     caseRunPoint == (caseRun + 1) / 2 ||
-                    caseRunPoint == RightPoint ||
-                    caseRunPoint == LeftPoint;
-        //end H_FILL case
+                    caseRunPoint == rightPoint ||
+                    caseRunPoint == leftPoint;
     }
 
     /**
@@ -490,23 +478,20 @@ public class KarelHomework extends SuperKarel {
     public void fastMoveToCenter() {
         boolean isVerticalMove = !facingWest() && !facingEast();
 
-        int temp = getSteps(); // store the steps in temporary
-        resetStepCounter();// reset the steps counter to 1 to continue and count the steps
         if (isVerticalMove) {
-            for (; steps < (height + 1) / 2; steps++) {
+            for (int i =1 ; i < (height + 1) / 2; i++) {
                 beeperPutter();// to know if Karel should put beeper on the current point
                 move();
-                XYCoordinates(); // update X,Y - coordinate
+                moveUpdater(); // update X,Y - coordinate and steps
 
             }
         } else {
-            for (; steps < (width + 1) / 2; steps++) {
+            for (int i =1 ; i < (width + 1) / 2; i++) {
                 beeperPutter();
                 move();
-                XYCoordinates();
+                moveUpdater();
             }
         }
-        steps += temp - 1; // to restore the value of steps before moving
         beeperPutter(); // to check also for putting beepers
 
     }
@@ -521,7 +506,7 @@ public class KarelHomework extends SuperKarel {
      * (the game that we used to play when we were kids).
      * <p>There are some cases that we need to divide by visit all point
      * <strong>.i.e PERFECT_ODD,H_FILL and V_FILL</strong>
-     * in the map,(this problem I cannot solve yet)
+     * in the map,(this problem may I do it wrong)
      * <p><strong>NOTE: </strong>I have tried my best to make it optimize.
      */
     public void fastFill() {
@@ -614,12 +599,7 @@ public class KarelHomework extends SuperKarel {
         fastMoveToCenter();
     }
 
-    /**
-     * resetStepCounter() will reset the Karel moves to 1
-     */
-    public void resetStepCounter() {
-        steps = 1;
-    }
+
 
     /**
      * beeperPutter() will make karel decide to put beeper or not
