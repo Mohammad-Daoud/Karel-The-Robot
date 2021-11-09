@@ -2,7 +2,7 @@
 import acm.util.ErrorException;
 import stanford.karel.SuperKarel;
 
-import java.util.Scanner;
+
 
 
 /**
@@ -39,7 +39,7 @@ import java.util.Scanner;
  * @author Mohammad Daoud
  */
 
-public class KarelHomework extends SuperKarel {
+public class Homework extends SuperKarel {
 
     private int width = 1;
     private int height = 1;
