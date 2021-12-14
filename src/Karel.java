@@ -6,7 +6,7 @@ import stanford.karel.SuperKarel;
 
 
 /**
- * The main point of the <tt>Homework</tt> class that make
+ * The main point of the <tt>Karel</tt> class that make
  * <strong>Karel the robot</strong> deals with any map of any size
  * by divided them to <strong>Four equal champers
  * </strong> and if <i>impossible</i> divide it to <strong>Tow equal champers</strong>.
@@ -34,12 +34,12 @@ import stanford.karel.SuperKarel;
  * the move number will be the same as Step (1)</strong>, because I think that the best practice for each case
  * is to get the time complexity <i>O(n*m)</i> after scanning.
  *
- * @author Motasem Aldiab
- * @author Fahed Jubair
+ * @author Dr.Motasem Aldiab
+ * @author De.Fahed Jubair
  * @author Mohammad Daoud
  */
 
-public class Homework extends SuperKarel {
+public class Karel extends SuperKarel {
 
     private int width = 1;
     private int height = 1;
