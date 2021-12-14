@@ -2,9 +2,6 @@
 import acm.util.ErrorException;
 import stanford.karel.SuperKarel;
 
-
-
-
 /**
  * The main point of the <tt>Karel</tt> class that make
  * <strong>Karel the robot</strong> deals with any map of any size
